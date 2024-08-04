@@ -1,0 +1,65 @@
+{% extends "public_site/base.html" %}
+{% load static %}
+{% block main_content %}
+
+    <div class="container-fluid bg-light bg-icon pb-5">
+        <br><br><br><br>
+        <div class="section-header text-center mx-auto mb-4" style="max-width: 500px;">
+                <h1 class="display-5 mb-3">CSV Data Analysis</h1>
+        </div>
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="row-lg-3 order-md-1">
+                    <h3 class="display-5 mb-4">First Few Rows Of Data</h3>
+                    <p>"View the first few rows of CSV data to quickly assess key details, including headers and initial entries, for a swift overview and analysis."</p>
+                </div>
+                <div class="col-lg-12 order-md-2 mt-0">
+                    <div class="position-relative overflow-auto ml-2">
+                        {{ first_rows|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row g-12 mt-2">
+                <div class="col-lg-3">
+                    <div class="position-relative overflow-auto">
+                        <h1 class="display-7 mb-4">Missing Values</h1>
+                        {{ missing_values|safe }}
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="position-relative overflow-auto">
+                            <h1 class="display-7 mb-4">Summary Statistics</h1>
+                            <p>"CSV Summary Statistics offer a brief overview of the data, including mean, median, mode, standard deviation, and other metrics. This summary helps quickly grasp the distribution and characteristics of the dataset."</p>
+                            {{ summary_stats|safe }}
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid bg-light bg-icon py-3 pb-5">
+        <div class="container">
+            <div class="section-header text-center mx-auto mb-5" style="max-width: 500px;">
+                <h1 class="display-5 mb-3">Histograms</h1>
+                <p>"Use histograms to visualize CSV data, offering clear graphical representations of data distribution and trends for insightful analysis."</p>
+            </div>
+            <div class="row g-4">
+                {% for column, img_url in histograms.items %}
+                <div class="col-lg-6 col-md-6">
+                    <div class=" text-center p-3"
+                        style="border-radius:10px;height:380px; border-color: black; border-width: 10px; border-style: solid;">
+                        <img class="img-fluid mb-1" src="{{ img_url }}" alt="Histogram of {{ column }}" style="border-radius:25px; height: 300px;">
+                        <h4>{{ column }}</h4>
+                    </div>
+                </div>  
+                {% endfor %} 
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <a href="{% url 'analysis:upload_csv' %}" class="btn btn-dark m-1 mt-2 mb-3" type="submit" style="display: inline-block;">Upload Another File</a>
+    </div>
+    {% endblock %}
